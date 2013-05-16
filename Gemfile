@@ -19,6 +19,8 @@ gem 'shotgun'
 
 gem 'bcrypt-ruby'
 
+gem 'will_paginate'
+
 group :test do
   gem 'faker'
   gem 'rspec'
