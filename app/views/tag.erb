@@ -1,0 +1,7 @@
+<h2>Tags</h2>
+<p>Tag:<%= @tag.name %></p>
+<p>Posts:<% @tag.posts.each do |post| %>
+         <%= post.title %>,
+         <% end %> </p>
+</div>
+<br>   

@@ -1,0 +1,22 @@
+
+
+<form action='/update-post/<%= @post_to_edit.id %>' method='post'>
+
+  <input type='textarea' name='title' value="<%= @post_to_edit.title %>" required></input>
+  <br>
+
+  <input type='textarea' name='body' value="<%= @post_to_edit.body %>" required></input>
+  <br>
+
+  
+  <input type='textarea' name='tags' value="<%= @post_to_edit.tags.map {|tag| tag.name }.join(", ") %>" required></input>
+  
+
+  <p>
+
+  <p>
+
+
+
+  <input type='submit'></input>
+</form>

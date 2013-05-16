@@ -1,0 +1,55 @@
+
+
+<form action='/new-post' method='post'>
+
+  <input type='textarea' name='title' placeholder="Post Title" required></input>
+  <br>
+
+  <input type='textarea' name='description' placeholder="Post Description" required></input>
+  <br>
+
+  <input type='textarea' name='tags' placeholder="Tags (separate w/ commas)" required></input>
+  <p>
+
+  <p>
+
+
+
+  <input type='submit'></input>
+</form>
+
+
+<h2>Posts</h2>
+<% Post.all.each do |post|%>
+<div class="post">
+<p>Title: <%= post.title %></p>
+<p>Body: <%= post.body %></p>
+<p>Tags: <% post.tags.each do |tag| %>
+         <%= tag.name %>,
+         <% end %> </p>
+
+<form action='/edit-post' method='post'>
+  <input name="id" value="<%= post.id %>" type='hidden'></input>
+  <input value="Edit Post" type='submit'></input>
+</form>
+
+<form action='/delete-post' method='post'>
+  <input name="id" value="<%= post.id %>" type='hidden'></input>
+  <input value="Delete Post" type='submit'></input>
+</form>         
+</div>
+<br>
+
+<% end %>
+
+
+<h2>Tags</h2>
+<% Tag.all.each do |tag|%>
+<div class="tag">
+<p>Tag:<%= tag.name %></p>
+<p>Posts:<% tag.posts.each do |post| %>
+         <%= post.title %>,
+         <% end %> </p>
+</div>
+<br>   
+<% end %>
