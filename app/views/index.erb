@@ -1,48 +1,91 @@
+<% if current_user %>
+  <h1>Welcome, <%= current_user.name %>.</h1>
+  <h2>You are User #<%= current_user.id %>.</h2>
+  <form action="/logout" method="post">
+  <input type="submit" value="Logout">
+  </form>
 
-
+<br><br>
+Create a Post:
 <form action='/new-post' method='post'>
 
   <input type='textarea' name='title' placeholder="Post Title" required></input>
   <br>
-
   <input type='textarea' name='description' placeholder="Post Description" required></input>
   <br>
-
   <input type='textarea' name='tags' placeholder="Tags (separate w/ commas)" required></input>
-  <p>
-
-  <p>
-
-
-
+  <br>
+  <br>
   <input type='submit'></input>
+
 </form>
 
 
-<h2>Posts</h2>
-<% Post.all.each do |post|%>
-<div class="post">
-<p>Title: <%= post.title %></p>
-<p>Body: <%= post.body %></p>
-<p>Tags: <% post.tags.each do |tag| %>
-         <%= tag.name %>,
-         <% end %> </p>
-
-<form action='/edit-post' method='post'>
-  <input name="id" value="<%= post.id %>" type='hidden'></input>
-  <input value="Edit Post" type='submit'></input>
-</form>
-
-<form action='/delete-post' method='post'>
-  <input name="id" value="<%= post.id %>" type='hidden'></input>
-  <input value="Delete Post" type='submit'></input>
-</form>         
-</div>
-<br>
 
 <% end %>
 
+ <br> <br>
+<% unless current_user %>
+    <div class ='login'>
+    <form action="/login" method="post">
+        Login:
+        <br>
+        <input type="text" name="email" placeholder="Email Address"><br>
+        <input type="password" name="password" placeholder="Password"><br>
 
+        <input type="submit" value="Send">
+    </form>
+  </div>
+
+    <br> <br>
+    <div class='create-user'>
+      <form action="/creation_success" method="post">
+        Create User Information:
+        <br>
+        <input type="text" name="name" placeholder="Name"><br>
+        <input type="text" name="email" placeholder="Email Address"><br>
+        <input type="password" name="password" placeholder="Password"><br>
+
+        <input type="submit" value="Send">
+    </form>
+  </div>
+
+    <% if @duplicate_user %>
+    <%= "Your account already exists. Please login." %>
+    <% end %>
+<%end%>
+
+<br>
+<h2>Posts</h2>
+<% Post.all.each do |post|%>
+  <div class="post">
+  <p>Title: <%= post.title %></p>
+  <p>Body: <%= post.body %></p>
+  <p>Tags: <% post.tags.each do |tag| %>
+             <%= tag.name %>,
+           <% end %> </p>
+
+  <% if post.authenticated_user_id == session[:user_id] %>
+    <form action='/edit-post' method='post'>
+      <input name="id" value="<%= post.id %>" type='hidden'></input>
+      <input value="Edit Post" type='submit'></input>
+    </form>
+
+
+    <form action='/delete-post' method='post'>
+      <input name="id" value="<%= post.id %>" type='hidden'></input>
+      <input value="Delete Post" type='submit'></input>
+    </form>         
+  </div>
+  <br>
+  <% end %>
+
+<% end %>
+
+</div>
+
+
+<br> 
 <h2>Tags</h2>
 <% Tag.all.each do |tag|%>
 <div class="tag">
@@ -50,6 +93,14 @@
 <p>Posts:<% tag.posts.each do |post| %>
          <%= post.title %>,
          <% end %> </p>
+<% if tag.authenticated_user_id == session[:user_id] %>
+<form action='/delete-tag' method='post'>
+  <input name="id" value="<%= tag.id %>" type='hidden'></input>
+  <input value="Delete Tag" type='submit'></input>
+</form>  
+<% end %>       
+</div>
+
 </div>
 <br>   
 <% end %>

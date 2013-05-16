@@ -1,0 +1,7 @@
+<h2>Posts</h2>
+<p>User:<%= @user.id %></p>
+<p><% Post.find_all_by_authenticated_user_id(@user.id).each do |post| %>
+         <%= post.title %>,
+         <% end %> </p>
+</div>
+<br>   
