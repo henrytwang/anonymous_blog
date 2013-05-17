@@ -10,4 +10,15 @@ $(document).ready(function() {
     console.log(this)
     $(this).addClass("even_tag")
   });
+
+  $(function(){
+  $('.items').masonry({
+  itemSelector: '.item'
+  });
+
+
+
+
+});
+
 });

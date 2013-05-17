@@ -1,12 +1,12 @@
 <% if current_user %>
-  <h1>Welcome, <%= current_user.name %>.</h1>
-  <h2>You are User #<%= current_user.id %>.</h2>
+  <h1>Welcome, <%= current_user.name %>. You are User #<%= current_user.id %>.</h1>
   <form action="/logout" method="post">
   <input type="submit" value="Logout">
   </form>
 
 <br><br>
 Create a Post:
+<div class="create-post">
 <form action='/new-post' method='post'>
 
   <input type='textarea' name='title' placeholder="Post Title" required></input>
@@ -19,18 +19,19 @@ Create a Post:
   <input type='submit'></input>
 
 </form>
-
+</div>
 
 
 <% end %>
 
  <br> <br>
 <% unless current_user %>
-    <div class ='login'>
+<div class='user-credentials'>
+  <div class ='login'>
     <form action="/login" method="post">
-        Login:
+        <h2>Login</h2>
         <br>
-        <input type="text" name="email" placeholder="Email Address"><br>
+        <input type="text" name="email" placeholder="Email"><br>
         <input type="password" name="password" placeholder="Password"><br>
 
         <input type="submit" value="Send">
@@ -38,17 +39,18 @@ Create a Post:
   </div>
 
     <br> <br>
-    <div class='create-user'>
+  <div class='create-user'>
       <form action="/creation_success" method="post">
-        Create User Information:
+        <h2>Create User</h2>
         <br>
         <input type="text" name="name" placeholder="Name"><br>
-        <input type="text" name="email" placeholder="Email Address"><br>
+        <input type="text" name="email" placeholder="Email"><br>
         <input type="password" name="password" placeholder="Password"><br>
 
         <input type="submit" value="Send">
     </form>
   </div>
+</div>
 
     <% if @duplicate_user %>
     <%= "Your account already exists. Please login." %>
@@ -56,38 +58,43 @@ Create a Post:
 <%end%>
 
 <br>
-<h2>Posts</h2>
+
+<div class="all-posts items">
+  <h2>Posts</h2>
 <% Post.all.each do |post|%>
-  <div class="post">
-  <p>Title: <%= post.title %></p>
-  <p>Body: <%= post.body %></p>
-  <p>Tags: <% post.tags.each do |tag| %>
-             <%= tag.name %>,
-           <% end %> </p>
+  <div class="post item">
+      <p>Title: <%= post.title %></p>
+      <p>Body: <%= post.body %></p>
+      <p>Tags: <% post.tags.each do |tag| %>
+                 <%= tag.name %>,
+               <% end %> </p>
 
-  <% if post.authenticated_user_id == session[:user_id] %>
-    <form action='/edit-post' method='post'>
-      <input name="id" value="<%= post.id %>" type='hidden'></input>
-      <input value="Edit Post" type='submit'></input>
-    </form>
+      <% if post.authenticated_user_id == session[:user_id] %>
+        <form action='/edit-post' method='post'>
+          <input name="id" value="<%= post.id %>" type='hidden'></input>
+          <input value="Edit Post" type='submit'></input>
+        </form>
 
 
-    <form action='/delete-post' method='post'>
-      <input name="id" value="<%= post.id %>" type='hidden'></input>
-      <input value="Delete Post" type='submit'></input>
-    </form>         
+        <form action='/delete-post' method='post'>
+          <input name="id" value="<%= post.id %>" type='hidden'></input>
+          <input value="Delete Post" type='submit'></input>
+        </form>         
   </div>
   <br>
   <% end %>
-
+</div>
 <% end %>
+</div>
 </div>
 
 
-<br> 
-<h2>Tags</h2>
+<br>
+
+<div class="all-tags items">
+  <h2 id="tags-title ">Tags</h2>
 <% Tag.all.each do |tag|%>
-<div class="tag">
+<div class="tag item">
 <p>Tag:<%= tag.name %></p>
 <p>Posts:<% tag.posts.each do |post| %>
          <%= post.title %>,
@@ -99,7 +106,7 @@ Create a Post:
 </form>  
 <% end %>       
 </div>
-
 </div>
 <br>   
 <% end %>
+</div>

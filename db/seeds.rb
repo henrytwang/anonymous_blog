@@ -5,7 +5,7 @@ require 'faker'
 end
 
 10.times do
-  Post.create(:title => Faker::Lorem.words(1)[0],
+  Post.create(:title => Faker::Lorem.word,
               :body => Faker::Lorem.sentences(3).join(" ")).tags << Tag.find(rand(1..10))
 
 end
