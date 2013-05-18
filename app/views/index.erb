@@ -34,7 +34,7 @@ Create a Post:
         <input type="text" name="email" placeholder="Email"><br>
         <input type="password" name="password" placeholder="Password"><br>
 
-        <input type="submit" value="Send">
+        <input class="send" type="submit" value="Send">
     </form>
   </div>
 
@@ -47,7 +47,7 @@ Create a Post:
         <input type="text" name="email" placeholder="Email"><br>
         <input type="password" name="password" placeholder="Password"><br>
 
-        <input type="submit" value="Send">
+        <input class="send" type="submit" value="Send">
     </form>
   </div>
 </div>
@@ -55,14 +55,14 @@ Create a Post:
     <% if @duplicate_user %>
     <%= "Your account already exists. Please login." %>
     <% end %>
-<%end%>
+<% end %>
 
 <br>
 
 <div class="all-posts items">
-  <h2>Posts</h2>
-<% Post.all.each do |post|%>
-  <div class="post item">
+
+<% @posts.each do |post| %>
+<div class="post item">
       <p>Title: <%= post.title %></p>
       <p>Body: <%= post.body %></p>
       <p>Tags: <% post.tags.each do |tag| %>
@@ -80,14 +80,15 @@ Create a Post:
           <input name="id" value="<%= post.id %>" type='hidden'></input>
           <input value="Delete Post" type='submit'></input>
         </form>         
-  </div>
-  <br>
-  <% end %>
 </div>
 <% end %>
-</div>
+<br>
+<% end %>
+<div class="digg_pagination">
+<%= will_paginate @posts %>
 </div>
 
+</div>
 
 <br>
 
@@ -110,3 +111,5 @@ Create a Post:
 <br>   
 <% end %>
 </div>
+
+

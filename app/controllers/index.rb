@@ -2,7 +2,7 @@ require 'bcrypt'
 
 get '/' do
   # Look in app/views/index.erb
-  
+  @posts = Post.paginate(:page => params[:page])  
   erb :index
 end
 
@@ -15,7 +15,6 @@ get '/users/:user/posts' do
   @user = User.find_all_by_id(params[:user])[0]
   erb :user_posts
 end
-
 
 post '/edit-post' do
   @post = params[:id]
@@ -99,6 +98,7 @@ post '/creation_success' do
                 :password => encryp_psswd)
     session[:user_id] = user.id
     @name = params[:name]
+    @posts = Post.paginate(:page => params[:page])  
     erb :index
   end
 end
